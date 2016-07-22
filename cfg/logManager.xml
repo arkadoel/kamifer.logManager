@@ -2,13 +2,14 @@
 
 <LogManager>
 	<Logger name="desarrollo">
-		<Level value="INFO" />
+		<Level value="ERROR" />
 		<Destinations>
 			<!-- lugares donde se va a reflejar el log.
 					- consola: sincrono
 					- ficheros csv: asincrono
 					- 
 			 -->
+			<Destination value="Console" format="[%level] - %date(yyyy-MM-dd HH:mm:ss) - %file - %class - %method(%line) : %message" />
 		</Destinations>
 	</Logger>
 </LogManager>
