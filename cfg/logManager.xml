@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LogManager>
+	<Logger name="desarrollo">
+		<Level value="INFO" />
+		<Destinations>
+			<!-- lugares donde se va a reflejar el log.
+					- consola: sincrono
+					- ficheros csv: asincrono
+					- 
+			 -->
+		</Destinations>
+	</Logger>
+</LogManager>
