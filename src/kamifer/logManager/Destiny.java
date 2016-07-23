@@ -15,6 +15,7 @@ public abstract class Destiny {
     public static class DestinationsTypes{
 
         public static String CONSOLE = "CONSOLE";
+        public static String CSV = "CSV";
     }
 
 	public String Name = "";
@@ -25,7 +26,7 @@ public abstract class Destiny {
     public String CallerFile = "";
     public String CallerLineNumber = "";
 	
-	abstract void sendLog(String texto, String Level);
+	protected abstract void sendLog(String texto, String Level);
 	
 	public abstract void trace(String texto);
     public abstract void debug(String texto);
@@ -35,7 +36,11 @@ public abstract class Destiny {
     public abstract void fatal(String texto);
 
     public String getDateTimeForFormat(){
-        String formatDate = this.DateParameterConfiguration();
+        return getDateTimeForFormat(this.Format);
+    }
+
+    public String getDateTimeForFormat(String format){
+        String formatDate = this.DateParameterConfiguration(format);
         SimpleDateFormat sdfDate = new SimpleDateFormat(formatDate);
         Date now = new Date();
         String strDate = sdfDate.format(now);
@@ -43,10 +48,14 @@ public abstract class Destiny {
     }
 
     public String DateParameterConfiguration(){
-        if(this.Format.contains("%date")){
-            int firstPosition = this.Format.indexOf("%date");
+        return DateParameterConfiguration(this.Format);
+    }
 
-            String quitadoPrincipio =this.Format.substring(firstPosition, this.Format.length());
+    private String DateParameterConfiguration(String format){
+        if(format.contains("%date")){
+            int firstPosition = format.indexOf("%date");
+
+            String quitadoPrincipio =format.substring(firstPosition, format.length());
             quitadoPrincipio = quitadoPrincipio.replace("%date(", "");
             int finalformto = quitadoPrincipio.indexOf(")");
             quitadoPrincipio = quitadoPrincipio.substring(0, finalformto);
@@ -57,6 +66,29 @@ public abstract class Destiny {
 
     public String getDateXMLText(){
         return "%date(" + DateParameterConfiguration() + ")";
+    }
+
+    public String getDateXMLText(String format){
+        return "%date(" + DateParameterConfiguration(format) + ")";
+    }
+
+    public String getReformatedText(String texto, String Level) {
+        return getReformatedWithFormat(texto, Level, this.Format);
+    }
+
+    public String getReformatedWithFormat(String mensaje, String Level, String plantilla){
+        String ver = plantilla;
+
+        String dateXMLText = getDateXMLText(plantilla);
+        String dateTimeForFormat = getDateTimeForFormat(plantilla);
+        ver = ver.replace(dateXMLText,dateTimeForFormat );
+        ver = ver.replace("%file", this.CallerFile);
+        ver = ver.replace("%class", this.CallerClass);
+        ver = ver.replace("%method", this.CallerMethod);
+        ver = ver.replace("%line", this.CallerLineNumber);
+        ver = ver.replace("%level", Level);
+        ver = ver.replace("%message", mensaje);
+        return ver;
     }
 
 }

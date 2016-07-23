@@ -3,6 +3,7 @@ package kamifer.logManager;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
+import kamifer.logManager.csv.CSVDestiny;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -73,6 +74,21 @@ public abstract class Logger {
                                 consola.Format = eDestino.getAttribute("format");
                                 Destinos.add(consola);
                                 System.out.println("Cargado un destino de consola");
+                            }
+                            else if(eDestino.getAttribute("value").toUpperCase().equals(Destiny.DestinationsTypes.CSV)){
+                                CSVDestiny csv = new CSVDestiny();
+                                csv.Format = eDestino.getAttribute("format");
+                                if(eDestino.getAttribute("separatorCharacter") != null && eDestino.getAttribute("separatorCharacter").length()==1) {
+                                    csv.setSeparatorCharacter( Character.valueOf( eDestino.getAttribute("separatorCharacter").toCharArray()[0]));
+                                }
+
+                                if(eDestino.getAttribute("headersLine") != null){
+                                    csv.setHeadersLine( eDestino.getAttribute("headersLine"));
+                                }
+                                csv.setFilePath( eDestino.getAttribute("filePath"));
+
+                                Destinos.add(csv);
+                                System.out.println("Cargado un destino de csv");
                             }
                         }
 					}

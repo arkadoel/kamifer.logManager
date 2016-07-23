@@ -1,6 +1,7 @@
 package kamifer.testing;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,7 +22,15 @@ public class pruebas {
 		milog.error("error normal");
 		System.out.println("cargado log");
 
+        while(true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.print(".");
+        }
 
-	}
+    }
 
 }

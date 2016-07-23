@@ -9,18 +9,12 @@ public class ConsoleDestiny extends Destiny {
 	}
 
 	@Override
-	void sendLog(String texto, String Level) {
-		String ver = Format;
-
-		ver = ver.replace(getDateXMLText(), getDateTimeForFormat());
-		ver = ver.replace("%file", this.CallerFile);
-		ver = ver.replace("%class", this.CallerClass);
-		ver = ver.replace("%method", this.CallerMethod);
-		ver = ver.replace("%line", this.CallerLineNumber);
-		ver = ver.replace("%level", Level);
-		ver = ver.replace("%message", texto);
+	protected void sendLog(String texto, String Level) {
+		String ver = getReformatedText(texto, Level);
 		System.out.println(ver);
 	}
+
+
 
 	@Override
 	public void trace(String texto) {

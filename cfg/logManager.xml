@@ -2,7 +2,7 @@
 
 <LogManager>
 	<Logger name="desarrollo">
-		<Level value="ERROR" />
+		<Level value="TRACE" />
 		<Destinations>
 			<!-- lugares donde se va a reflejar el log.
 					- consola: sincrono
@@ -10,6 +10,12 @@
 					- 
 			 -->
 			<Destination value="Console" format="[%level] - %date(yyyy-MM-dd HH:mm:ss) - %file - %class - %method(%line) : %message" />
+			<Destination value="CSV"
+						 format="[%level] ; %date(yyyy-MM-dd HH:mm:ss) ; %file ; %class ; %method(%line) ; %message"
+						 headersLine="LEVEL ; DATE ; FILE ; CLASS ; METHOD ; MESSAGE "
+						 separatorCharacter=";"
+						 filePath="./log/archivo_%date(yyyy_MM_dd__HH_mm_ss).csv"
+			/>
 		</Destinations>
 	</Logger>
 </LogManager>
