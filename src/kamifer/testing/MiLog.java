@@ -10,6 +10,7 @@ public class MiLog extends Logger{
      */
     @Override
     public void fatal(String mensaje) {
+        super.setMyValue("CASA", "vete");
         super.log(mensaje, LoggerLevels.FATAL, 4);
         super.log("Error fatal, fin de la aplicacion", LoggerLevels.INFO, 4);
         System.exit(-1);

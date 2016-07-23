@@ -33,10 +33,15 @@ public class WriterDaemon extends Thread {
 
                 Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 escrito = true;
-                System.out.print("*");
+                //System.out.print("*");
             } catch (IOException e) {
                 e.printStackTrace();
                 escrito = false;
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    //
+                }
             }
         }
 

@@ -2,6 +2,8 @@ package kamifer.logManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  * Clase que encapsula los distintos destinos que puede tener
@@ -25,6 +27,8 @@ public abstract class Destiny {
     public String CallerMethod = "";
     public String CallerFile = "";
     public String CallerLineNumber = "";
+
+    public Map<String, String> MyValues = new HashMap<String, String>();
 	
 	protected abstract void sendLog(String texto, String Level);
 	
@@ -88,6 +92,10 @@ public abstract class Destiny {
         ver = ver.replace("%line", this.CallerLineNumber);
         ver = ver.replace("%level", Level);
         ver = ver.replace("%message", mensaje);
+
+        for(String key : MyValues.keySet()){
+            ver = ver.replace(key, MyValues.get(key));
+        }
         return ver;
     }
 

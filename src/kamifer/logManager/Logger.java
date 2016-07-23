@@ -11,6 +11,8 @@ import org.w3c.dom.Element;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Logger {
 
@@ -18,6 +20,19 @@ public abstract class Logger {
 	private String Level;
 	private ArrayList<Destiny> Destinos = new ArrayList<Destiny>();
     private  ArrayList<String> LevelsToPrint = new ArrayList<>();
+    private Map<String, String> myValues = new HashMap<String, String>();
+
+    public Map<String, String> getMyValues() {
+        return myValues;
+    }
+
+    public void setMyValue(String key, String value) {
+        myValues.put("%" + key, value);
+
+        for(Destiny destino : Destinos){
+            destino.MyValues = myValues;
+        }
+    }
 
     public static class LoggerLevels{
         public static String TRACE = "TRACE";
@@ -58,7 +73,27 @@ public abstract class Logger {
 					
 					this.Level = ((Element)eElement.getElementsByTagName("Level").item(0)).getAttribute("value");
                     this.setLevelsToPrint(this.getLevel());
-					NodeList destinos = ((Element)eElement.getElementsByTagName("Destinations").item(0)).getElementsByTagName("Destination");
+
+                    //CARGAR VARIABLES PERSONALIZADAS
+                    NodeList xmlMyValues = eElement.getElementsByTagName("MyValues").item(0).getChildNodes();
+
+
+                    for(int zval = 0; zval<xmlMyValues.getLength(); zval++){
+                        Node nodoMyValue = xmlMyValues.item(zval);
+                        if(nodoMyValue.getNodeType() == Node.ELEMENT_NODE){
+                            Element eMyValue = (Element) nodoMyValue;
+
+                            if(eMyValue.hasAttribute("default")) {
+                                myValues.put("%" + eMyValue.getTagName(), eMyValue.getAttribute("default"));
+                            }
+                            else{
+                                myValues.put("%" + eMyValue.getTagName(), "");
+                            }
+                        }
+                    }
+
+                    //CARGAR DESTINOS
+                    NodeList destinos = ((Element)eElement.getElementsByTagName("Destinations").item(0)).getElementsByTagName("Destination");
 
                     Destinos = new ArrayList<Destiny>();
 
@@ -72,6 +107,7 @@ public abstract class Logger {
                             if(eDestino.getAttribute("value").toUpperCase().equals(Destiny.DestinationsTypes.CONSOLE)){
                                 ConsoleDestiny consola = new ConsoleDestiny();
                                 consola.Format = eDestino.getAttribute("format");
+                                consola.MyValues = myValues;
                                 Destinos.add(consola);
                                 System.out.println("Cargado un destino de consola");
                             }
@@ -87,6 +123,7 @@ public abstract class Logger {
                                 }
                                 csv.setFilePath( eDestino.getAttribute("filePath"));
 
+                                csv.MyValues = myValues;
                                 Destinos.add(csv);
                                 System.out.println("Cargado un destino de csv");
                             }
