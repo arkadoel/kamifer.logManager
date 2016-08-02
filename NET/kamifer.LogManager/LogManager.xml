@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LogManager>
+  <Logger name="dbScriptCutter">
+    <Level value="TRACE" />
+    <MyValues>
+      <!-- Valores que pueden aparecer en format (dentro de los destinos),
+			 	 son definidos por el usuario y deben ser rellenados -->
+      <Portfolio default = "Sin seleccionar"/>
+      <CASA />
+    </MyValues>
+    <Destinations>
+      <!-- lugares donde se va a reflejar el log.
+					- consola: sincrono
+					- ficheros csv: asincrono mediante demonios
+					- 
+			 -->
+      <Destination value="Console" format="[%level] - %date(yyyy-MM-dd HH:mm:ss) - %file - %class - %method(%line) : %message" />
+      <!--
+      <Destination value="CSV"
+						 format="[%level] ; %date(yyyy-MM-dd HH:mm:ss) ; %file ; %class ; %method(%line) ; %message ; %Portfolio ; %CASA"
+						 headersLine="LEVEL ; DATE ; FILE ; CLASS ; METHOD ; MESSAGE ; PORTFOLIO ; CASA"
+						 separatorCharacter=";"
+						 filePath="./log/archivo_%date(yyyy_MM_dd__HH_mm).csv"
+			/>-->
+      <Destination value="xml" 
+                   format="&lt;Accion Tipo='%level' Hora='%date(yyyy-MM-dd HH:mm:ss)' Metodo='%file - %class.%method(%line)' &gt;%message&lt;/Accion&gt;"
+                   filePath="./log/%loggerName_%date(yyyy_MM_dd__HH_mm_ss).xml"
+      />
+    </Destinations>
+  </Logger>
+</LogManager>
