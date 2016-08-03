@@ -33,7 +33,7 @@ namespace kamifer.LogManager.Destinations
                     fich = new StreamWriter(filePath, true);
                     fich.WriteLine(texto);
                     escrito = true;
-                    Console.WriteLine("*");
+                    //Console.WriteLine("*");
                 }
                 catch (IOException e)
                 {

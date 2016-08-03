@@ -36,7 +36,7 @@ namespace kamifer.LogManager.Destinations
                     doc.Element(project).Add(elemento);
                     doc.Save(filePath, SaveOptions.None);
                     escrito = true;
-                    Console.WriteLine("+");
+                    //Console.WriteLine("+");
                 }
                 catch (IOException e)
                 {
